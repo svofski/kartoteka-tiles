@@ -42,17 +42,23 @@
 <div id="overlay"></div>
 <script>
 
-let mapWidth = mapHeight = 32768;
-let tileWidth = 256;
-let tileHeight = 192;
+//let mapWidth = mapHeight = 16128;
+let yoffset = 0;//5376;// 3456;
+
+//let mapWidth = 32768;
+//let mapHeight = 32768;
+let tileWidth = 384;
+let tileHeight = 288;
 let gridWidth = 128;
-let gridHeight = 132;
+let gridHeight = 85;
+let mapWidth = tileWidth * gridWidth;
+let mapHeight = mapWidth;
 
 let minNativeZoom = 1;
 let maxNativeZoom = 6;
 
-let imageWidth = tileWidth*gridWidth;
-let imageHeight = tileHeight*gridHeight;
+let imageWidth = tileWidth * gridWidth;
+let imageHeight = tileHeight * gridHeight;
 
 let tileSize = 512;
 let factor = tileSize / mapWidth;
@@ -142,7 +148,8 @@ map.addControl(new L.Control.Search({
 
 function getBoundingBox() {
   let left = (mapWidth - imageWidth)/2;
-  let top = (mapHeight - imageHeight)/2;
+  let top = (mapHeight - imageHeight)/2 + yoffset;
+  
   let right = left + imageWidth;
   let bottom = top + imageHeight;
   return [[top,left],[bottom,right]];
@@ -180,7 +187,7 @@ function zoomToTile(tileNumber) {
   let id = names[tileNumber];
   let popup = L.popup();
   let point = L.latLng(top,(left+right)/2);
-  popup.setLatLng(point).setContent('<a href="https://viva-games.ru/game/'+id+'" target=_blank>https://viva-games.ru/game/'+id+'</a>').openOn(map);
+  popup.setLatLng(point).setContent('<a href="https://caglrc.cc/scalar/ware/'+id+'" target=_blank>https://caglrc.cc/scalar/ware/'+id+'</a>').openOn(map);
   window.location.hash = id;
 }
 

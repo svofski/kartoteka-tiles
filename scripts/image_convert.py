@@ -4,7 +4,9 @@ import os, sys
 
 images = [*glob.glob("gifs/*.gif")]
 
-size = (256,192)
+#size = (256,192)
+size=(384,288)
+#size=(256,256)
 
 for i,fname in enumerate(images):
     fout = os.path.join('images',os.path.basename(fname)).replace('.gif', '.png')

@@ -5,19 +5,27 @@ import sys, os
 import csv
 import math,random,json
 
-target_image = Image.open('all-games.png')
+target_image = Image.open('vector06c.png')
 
 basedir = 'images'
 
 images = [*glob.glob(basedir + '/*')]
 images.sort()
 
-tw = 256
-th = 192
+# repeat each image not more than nduplicates times
+nduplicates = 8
 
-n = len(images)
+tw = 384
+th = 288
+#tw = 256
+#th = 256
 
-cw = 32768//tw
+n = len(images) * nduplicates
+
+print('number of images: ', n)
+
+#cw = 16384//tw
+cw = 128 # 32768//tw
 ch = n//cw
 
 w = tw*cw
@@ -124,6 +132,7 @@ grid_img = Image.new('RGB', (w, h))
 
 target_set = set(range(len(target_colors)))
 source_set = set(range(len(tile_colors)))
+source_dup = {x: nduplicates for x in range(len(tile_colors))}
 
 def find_best_match(target_colors, source_colors):
 
@@ -232,7 +241,11 @@ def find_best_match_random_target(target_colors, source_colors):
             best_source_index = source_index
             best_target_index = target_index
 
-    source_set.remove(best_source_index)
+    # allow a fixed number of duplicates
+    count = source_dup[best_source_index] - 1
+    if count == 0:
+        source_set.remove(best_source_index)
+    source_dup[best_source_index] = count
 
     return best_target_index, best_source_index
 
